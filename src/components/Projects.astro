@@ -1,25 +1,47 @@
 ---
 import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import { projects } from "../data/site";
-import project1 from "../assets/projects/project-1.jpg";
-import project2 from "../assets/projects/project-2.jpg";
-import project3 from "../assets/projects/project-3.jpg";
 
-const images = [project1, project2, project3];
+// Le immagini si risolvono per nome file, non per posizione nell'elenco:
+// aggiungere un progetto è una riga in site.ts più il file in src/assets/projects/.
+const files = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/projects/*.{jpg,jpeg,png,webp,avif}",
+  { eager: true }
+);
+
+const byName = new Map(
+  Object.entries(files).map(([filePath, mod]) => [
+    filePath.split("/").pop()!.replace(/\.[^.]+$/, ""),
+    mod.default,
+  ])
+);
+
+// Meglio fallire durante la build che pubblicare un progetto senza immagine
+// o, peggio, con quella di un altro.
+const voci = projects.map((project) => {
+  const src = byName.get(project.image);
+  if (!src) {
+    throw new Error(
+      `Progetto "${project.name}": manca src/assets/projects/${project.image}.* ` +
+        `(disponibili: ${[...byName.keys()].join(", ") || "nessuna"})`
+    );
+  }
+  return { ...project, src };
+});
 ---
 
 <section id="progetti">
   <h2 class="sr-only">Progetti</h2>
 
   {
-    projects.map((project, i) => (
+    voci.map((project, i) => (
       <article class="project group flex min-h-[92vh] w-full flex-col justify-center border-t border-[var(--color-border)] py-16 lg:py-20">
         <div class="project-media w-full overflow-hidden">
           <Image
-            src={images[i]}
+            src={project.src}
             alt={project.name}
-            width={1920}
-            height={1280}
+            width={Math.min(project.src.width, 1920)}
             loading={i === 0 ? "eager" : "lazy"}
             class="project-img h-[52vh] w-full object-cover lg:h-[66vh]"
           />
@@ -43,7 +65,7 @@ const images = [project1, project2, project3];
 
             <div class="project-item delay-3 lg:col-span-5">
               <p class="text-sm uppercase tracking-[0.25em] text-[var(--color-fg-muted)]">
-                {project.category}
+                {project.category.join(" · ")}
               </p>
               <p class="mt-4 text-justify text-lg leading-relaxed text-[var(--color-fg-muted)]">
                 {project.result}

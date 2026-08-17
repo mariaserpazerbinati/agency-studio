@@ -32,11 +32,16 @@ export const stats = [
   { value: 300, suffix: "+", label: "Creatività prodotte" }, // [PLACEHOLDER]
 ];
 
+export type Categoria = "Social" | "Editoriale";
+
+// `image` è il nome del file (senza estensione) in src/assets/projects/.
+// Se non corrisponde a nessun file, la build si ferma con un errore esplicito.
+// `category` è un elenco: un progetto può appartenere a più categorie.
 export type Project = {
   slug: string;
   name: string;
   year: string;
-  category: "Social" | "Editoriale";
+  category: Categoria[];
   result: string;
   image: string;
 };
@@ -46,25 +51,33 @@ export const projects: Project[] = [
     slug: "progetto-uno",
     name: "A.M. Design & Decor", // [PLACEHOLDER]
     year: "2024-2026",
-    category: "Social",
+    category: ["Social"],
     result: "Brand development, media strategy", // [PLACEHOLDER]
-    image: "/images/projects/project-1.jpg",
+    image: "project-1",
   },
   {
     slug: "progetto-due",
     name: "Denise Alves Right Touch", // [PLACEHOLDER]
     year: "2025-2026",
-    category: "Social",
+    category: ["Social"],
     result: "Brand identity, media management", // [PLACEHOLDER]
-    image: "/images/projects/project-2.jpg",
+    image: "project-2",
   },
   {
     slug: "progetto-tre",
     name: "Smery Hairstyle", // [PLACEHOLDER]
     year: "2025-2026",
-    category: "Social",
+    category: ["Social"],
     result: "Branding, communication management", // [PLACEHOLDER]
-    image: "/images/projects/project-3.jpg",
+    image: "project-3",
+  },
+  {
+    slug: "cantina-villa-gianna",
+    name: "Cantina Villa Gianna",
+    year: "2023-2024",
+    category: ["Social", "Editoriale"],
+    result: "Brand Positioning, Media Management, Content Creation",
+    image: "project-4",
   },
 ];
 
