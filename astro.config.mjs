@@ -7,8 +7,9 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  // TODO: sostituisci con il dominio definitivo prima del deploy (serve per sitemap, OG, canonical)
-  site: 'https://www.example.com',
+  // Indirizzo pubblico: serve per sitemap, URL canonico e anteprime social.
+  // Quando arriverà un dominio proprio, va aggiornato qui e in public/robots.txt.
+  site: 'https://mariaserpa.netlify.app',
 
   vite: {
     plugins: [tailwindcss()]
