@@ -5,7 +5,7 @@ export const site = {
   name: "Maria Serpa",
   role: "Creative Strategist & Media Manager",
   city: "Milano",
-  email: "nome@tuodominio.com",
+  email: "mariiaserpa@icloud.com",
   description:
     "Comunicazione social e campagne promozionali organiche per far crescere personal brand e aziende — community vere, non solo numeri di vanità.",
 };
@@ -96,9 +96,10 @@ export const about = {
 };
 
 export const social = [
-  { label: "Instagram", href: "https://instagram.com/tuoaccount" }, // [PLACEHOLDER]
-  { label: "LinkedIn", href: "https://linkedin.com/in/tuoaccount" }, // [PLACEHOLDER]
-  { label: "TikTok", href: "https://tiktok.com/@tuoaccount" }, // [PLACEHOLDER]
+  { label: "Instagram", href: "https://www.instagram.com/mariaserpa.ze/" }, // [PLACEHOLDER]
+
 ];
 
-export const formspreeEndpoint = "https://formspree.io/f/YOUR_FORM_ID"; // [PLACEHOLDER]
+// Il form di contatto usa Netlify Forms: nessun endpoint né chiave da configurare.
+// Gli invii arrivano nel pannello Netlify, sezione Forms del progetto.
+// Le notifiche via email si attivano lì (Project configuration → Notifications).

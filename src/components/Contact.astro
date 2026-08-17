@@ -1,5 +1,5 @@
 ---
-import { site, social, formspreeEndpoint } from "../data/site";
+import { site, social } from "../data/site";
 const year = new Date().getFullYear();
 ---
 
@@ -36,12 +36,19 @@ const year = new Date().getFullYear();
       </div>
     </div>
 
+    <!-- Netlify Forms: il modulo viene rilevato nell'HTML statico al deploy.
+         `name` identifica il form nel pannello, il campo nascosto form-name
+         è indispensabile per l'invio via JavaScript, e _gotcha resta la trappola
+         anti-spam, ora dichiarata a Netlify. -->
     <form
       id="contact-form"
-      action={formspreeEndpoint}
+      name="contatti"
       method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="_gotcha"
       class="flex flex-col gap-5"
     >
+      <input type="hidden" name="form-name" value="contatti" />
       <div class="flex flex-col gap-2">
         <label for="name" class="text-base text-[var(--color-fg-muted)]">Nome</label>
         <input
@@ -116,10 +123,12 @@ const year = new Date().getFullYear();
       if (submitBtn) submitBtn.disabled = true;
 
       try {
-        const response = await fetch(form.action, {
+        // Netlify accetta l'invio come POST alla pagina stessa, con il corpo
+        // codificato in form-urlencoded. Il campo form-name dice quale modulo è.
+        const response = await fetch("/", {
           method: "POST",
-          body: new FormData(form),
-          headers: { Accept: "application/json" },
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(new FormData(form) as any).toString(),
         });
 
         if (response.ok) {
