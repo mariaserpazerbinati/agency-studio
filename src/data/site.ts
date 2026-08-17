@@ -88,6 +88,7 @@ export const clients = [
   { name: "Smery Hairstyle", logo: "client-1" },
   { name: "Denise Alves", logo: "client-2" },
   { name: "A.M. Designer & Decor", logo: "client-3" },
+  { name: "Cantina Villa Gianna", logo: "client-4" },
 ];
 
 // Fascia a contrasto scuro tra Progetti e Clienti. Ogni riga si svela

@@ -16,8 +16,29 @@ const byName = new Map(
   ])
 );
 
-// Le proporzioni dei loghi variano molto (da 2:1 a 5:1): ognuno vive in un
-// riquadro uniforme con object-contain, così l'ingombro ottico resta costante.
+// Le proporzioni variano moltissimo (da 2:1 a 13:1). Un riquadro di dimensione
+// fissa le penalizza: vincolando in larghezza, un marchio molto allungato
+// risulterebbe alto una fettuccia accanto a uno quasi quadrato.
+// Ogni logo riceve invece la stessa AREA: l'altezza scende quanto più è largo,
+// così il peso visivo resta costante. I due tetti evitano gli estremi.
+const AREA = 19000; // px²: superficie occupata da ogni logo
+const ALTEZZA_MAX = 104; // per i loghi quasi quadrati
+const LARGHEZZA_MAX = 520; // per i marchi tipografici molto lunghi
+
+function misura(src: ImageMetadata) {
+  const proporzione = src.width / src.height;
+  let h = Math.sqrt(AREA / proporzione);
+  let w = h * proporzione;
+  if (h > ALTEZZA_MAX) {
+    h = ALTEZZA_MAX;
+    w = h * proporzione;
+  }
+  if (w > LARGHEZZA_MAX) {
+    w = LARGHEZZA_MAX;
+    h = w / proporzione;
+  }
+  return { w: Math.round(w), h: Math.round(h) };
+}
 
 // L'animazione trasla la pista del 50%: perché il ciclo sia continuo, metà pista
 // deve essere più larga del viewport. Con pochi loghi va ripetuta, altrimenti
@@ -26,11 +47,16 @@ const MIN_PER_META = 9;
 const ripetizioni = Math.max(2, Math.ceil(MIN_PER_META / clients.length));
 const meta = Array.from({ length: ripetizioni }, () => clients).flat();
 
-const track = [...meta, ...meta].map((client, i) => ({
-  ...client,
-  src: byName.get(client.logo),
-  key: `${client.logo}-${i}`,
-}));
+const track = [...meta, ...meta].map((client, i) => {
+  const src = byName.get(client.logo);
+  if (!src) {
+    throw new Error(
+      `Cliente "${client.name}": manca src/assets/clients/${client.logo}.* ` +
+        `(disponibili: ${[...byName.keys()].join(", ") || "nessuno"})`
+    );
+  }
+  return { ...client, src, ...misura(src), key: `${client.logo}-${i}` };
+});
 ---
 
 <section id="clienti" class="border-t border-[var(--color-border)] py-20 sm:py-28">
@@ -42,17 +68,19 @@ const track = [...meta, ...meta].map((client, i) => ({
     <div class="marquee-track flex w-max items-center gap-14 sm:gap-20">
       {
         track.map((client) => (
-          <div class="flex h-24 w-[170px] shrink-0 items-center justify-center sm:h-28 sm:w-[210px]">
-            {client.src && (
-              <Image
-                src={client.src}
-                alt={client.name}
-                height={112}
-                densities={[1, 2]}
-                loading="lazy"
-                class="max-h-full max-w-full object-contain opacity-70 transition-opacity duration-300 hover:opacity-100"
-              />
-            )}
+          <div
+            class="flex shrink-0 items-center justify-center"
+            style={`width:${client.w}px;height:${client.h}px`}
+          >
+            <Image
+              src={client.src}
+              alt={client.name}
+              width={client.w}
+              height={client.h}
+              densities={[1, 2]}
+              loading="lazy"
+              class="h-full w-full object-contain opacity-70 transition-opacity duration-300 hover:opacity-100"
+            />
           </div>
         ))
       }
