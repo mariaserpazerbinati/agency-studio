@@ -1,0 +1,61 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { clients } from "../data/site";
+
+// I loghi passano da astro:assets: convertiti in WebP alla dimensione di resa.
+const files = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/clients/*.{png,jpg,jpeg,webp}",
+  { eager: true }
+);
+
+const byName = new Map(
+  Object.entries(files).map(([filePath, mod]) => [
+    filePath.split("/").pop()!.replace(/\.[^.]+$/, ""),
+    mod.default,
+  ])
+);
+
+// Le proporzioni dei loghi variano molto (da 2:1 a 5:1): ognuno vive in un
+// riquadro uniforme con object-contain, così l'ingombro ottico resta costante.
+
+// L'animazione trasla la pista del 50%: perché il ciclo sia continuo, metà pista
+// deve essere più larga del viewport. Con pochi loghi va ripetuta, altrimenti
+// a metà giro comparirebbe uno spazio vuoto sugli schermi larghi.
+const MIN_PER_META = 9;
+const ripetizioni = Math.max(2, Math.ceil(MIN_PER_META / clients.length));
+const meta = Array.from({ length: ripetizioni }, () => clients).flat();
+
+const track = [...meta, ...meta].map((client, i) => ({
+  ...client,
+  src: byName.get(client.logo),
+  key: `${client.logo}-${i}`,
+}));
+---
+
+<section id="clienti" class="border-t border-[var(--color-border)] py-20 sm:py-28">
+  <h2 class="font-body mb-12 px-5 text-base font-light uppercase tracking-[0.2em] text-[var(--color-fg-muted)] sm:px-8">
+    Hanno lavorato con me
+  </h2>
+
+  <div class="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+    <div class="marquee-track flex w-max items-center gap-14 sm:gap-20">
+      {
+        track.map((client) => (
+          <div class="flex h-24 w-[170px] shrink-0 items-center justify-center sm:h-28 sm:w-[210px]">
+            {client.src && (
+              <Image
+                src={client.src}
+                alt={client.name}
+                height={112}
+                densities={[1, 2]}
+                loading="lazy"
+                class="max-h-full max-w-full object-contain opacity-70 transition-opacity duration-300 hover:opacity-100"
+              />
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

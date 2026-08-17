@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+/* Font self-hosted via @fontsource — importati anche in Layout.astro per il preload critico */
+@import "@fontsource-variable/bodoni-moda";
+@import "@fontsource-variable/jost";
+
+@theme {
+  --font-display: "Bodoni Moda Variable", ui-serif, Georgia, serif;
+  --font-body: "Jost Variable", ui-sans-serif, system-ui, sans-serif;
+
+  /* Palette chiara ed elegante + accento — vedi README per le 2 alternative cromatiche */
+  --color-bg: #f8f5ef;
+  --color-bg-alt: #f0ebe1;
+  --color-surface: #ffffff;
+  --color-fg: #211d18;
+  --color-fg-muted: #756e62;
+  --color-border: #e2dbcc;
+  --color-accent: #a8532f;
+  --color-accent-fg: #f8f5ef;
+
+  /* Fascia a contrasto: inchiostro caldo, mai nero puro */
+  --color-ink: #17120e;
+  --color-ink-fg: #f2ece1;
+  --color-ink-muted: #a1968a;
+
+  /* Crenatura dei titoli in Bodoni: più stretta di tracking-tight (-0.025em).
+     Un serif ad alto contrasto a corpo grande regge bene una spaziatura serrata. */
+  --tracking-display: -0.042em;
+
+  --breakpoint-xs: 30rem;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-bg);
+  color-scheme: light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Nessun background-color sul body: coprirebbe lo strato ambientale, che ha
+   z-index negativo e viene disegnato prima dei box in flusso. Il fondo sta su html. */
+body {
+  color: var(--color-fg);
+  font-family: var(--font-body);
+  /* Jost è un geometrico: peso leggero e crenatura stretta per un tono sobrio */
+  font-weight: 300;
+  letter-spacing: -0.012em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* In @layer base perché le utility Tailwind vivono in un layer successivo:
+   una regola fuori dai layer vincerebbe su qualsiasi classe (es. text-balance). */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    /* Distribuisce le parole tra le righe: mai un titolo che finisce con una parola sola */
+    text-wrap: balance;
+  }
+
+  /* Stessa regola sul corpo testo: il browser evita le ultime righe orfane */
+  p,
+  li,
+  dd,
+  label,
+  figcaption,
+  blockquote {
+    text-wrap: pretty;
+  }
+}
+
+/* Compensa l'altezza della nav fissa quando si naviga alle ancore */
+section[id] {
+  scroll-margin-top: 4.5rem;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-accent-fg);
+}
+
+/* Marquee loghi clienti — puro CSS, nessuna libreria JS */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee-scroll 32s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* Count-up: evita il flash di "0" prima che l'IntersectionObserver parta */
+.count-up {
+  font-variant-numeric: tabular-nums;
+}

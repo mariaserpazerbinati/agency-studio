@@ -1,0 +1,35 @@
+---
+import { Image } from "astro:assets";
+import { about, site } from "../data/site";
+import portrait from "../assets/about/portrait.jpg";
+---
+
+<section id="chi-sono" class="border-t border-[var(--color-border)] bg-[var(--color-bg-alt)]/60 px-5 py-24 sm:px-8 sm:py-32">
+  <div class="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-[minmax(0,380px)_1fr] lg:gap-20">
+    <Image
+      src={portrait}
+      alt={site.name}
+      width={820}
+      densities={[1, 2]}
+      loading="lazy"
+      class="aspect-[4/5] w-full max-w-sm rounded-2xl object-cover"
+    />
+
+    <div class="flex flex-col justify-center">
+      <h2 class="font-body mb-6 text-base font-light uppercase tracking-[0.2em] text-[var(--color-fg-muted)]">
+        Chi sono
+      </h2>
+      <p class="font-display max-w-2xl text-balance text-2xl font-normal leading-snug tracking-display text-[var(--color-fg)] sm:text-3xl lg:text-4xl">
+        {about.positioning}
+      </p>
+
+      <ul class="mt-10 flex max-w-xl flex-col gap-4 border-l border-[var(--color-border)] pl-6">
+        {
+          about.method.map((point) => (
+            <li class="text-justify text-lg text-[var(--color-fg-muted)] sm:text-xl">{point}</li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

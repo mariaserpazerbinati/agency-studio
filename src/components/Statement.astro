@@ -1,0 +1,96 @@
+---
+import { statement } from "../data/site";
+---
+
+<section
+  class="statement relative flex min-h-[80vh] w-full items-center overflow-hidden bg-[var(--color-ink)] px-5 py-28 sm:px-8 sm:py-36"
+>
+  <span
+    class="pointer-events-none absolute -right-[10vw] top-1/2 h-[70vw] w-[70vw] -translate-y-1/2 rounded-full"
+    style="background: radial-gradient(circle, color-mix(in srgb, var(--color-accent) 38%, transparent) 0%, transparent 68%); opacity: 0.5;"
+    aria-hidden="true"
+  >
+  </span>
+
+  <div class="relative z-10 mx-auto w-full max-w-7xl">
+    <p
+      class="statement-kicker mb-10 flex items-center gap-4 text-base uppercase tracking-[0.2em] text-[var(--color-ink-muted)]"
+    >
+      <span class="h-px w-10 bg-[var(--color-ink-muted)]"></span>
+      {statement.kicker}
+    </p>
+
+    <p class="font-display max-w-5xl">
+      {
+        statement.lines.map((line) => (
+          <span class="statement-line block overflow-hidden">
+            <span class="statement-line-inner block text-[2.6rem] font-light leading-[1.1] tracking-display text-[var(--color-ink-fg)] sm:text-6xl lg:text-[5rem]">
+              {line}
+            </span>
+          </span>
+        ))
+      }
+    </p>
+  </div>
+</section>
+
+<style>
+  /* Ogni riga sale da sotto la propria mascheratura: il blocco padre
+     ha overflow-hidden, l'interno parte spostato in basso del 100%. */
+  .statement-line-inner {
+    transform: translateY(105%);
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .statement.is-visible .statement-line-inner {
+    transform: translateY(0);
+  }
+
+  .statement.is-visible .statement-line:nth-child(2) .statement-line-inner {
+    transition-delay: 0.12s;
+  }
+  .statement.is-visible .statement-line:nth-child(3) .statement-line-inner {
+    transition-delay: 0.24s;
+  }
+  .statement.is-visible .statement-line:nth-child(4) .statement-line-inner {
+    transition-delay: 0.36s;
+  }
+
+  .statement-kicker {
+    opacity: 0;
+    transition: opacity 0.9s ease;
+  }
+
+  .statement.is-visible .statement-kicker {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .statement-line-inner,
+    .statement-kicker {
+      transform: none;
+      opacity: 1;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const band = document.querySelector<HTMLElement>(".statement");
+
+  if (band) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(band);
+  }
+</script>

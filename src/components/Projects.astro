@@ -1,0 +1,138 @@
+---
+import { Image } from "astro:assets";
+import { projects } from "../data/site";
+import project1 from "../assets/projects/project-1.jpg";
+import project2 from "../assets/projects/project-2.jpg";
+import project3 from "../assets/projects/project-3.jpg";
+
+const images = [project1, project2, project3];
+---
+
+<section id="progetti">
+  <h2 class="sr-only">Progetti</h2>
+
+  {
+    projects.map((project, i) => (
+      <article class="project group flex min-h-[92vh] w-full flex-col justify-center border-t border-[var(--color-border)] py-16 lg:py-20">
+        <div class="project-media w-full overflow-hidden">
+          <Image
+            src={images[i]}
+            alt={project.name}
+            width={1920}
+            height={1280}
+            loading={i === 0 ? "eager" : "lazy"}
+            class="project-img h-[52vh] w-full object-cover lg:h-[66vh]"
+          />
+        </div>
+
+        <div class="mx-auto mt-10 w-full max-w-7xl px-5 sm:px-8">
+          <div class="project-item delay-1 flex items-center gap-5">
+            <span class="text-base font-medium tabular-nums text-[var(--color-accent)]">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span class="h-px flex-1 bg-[var(--color-border)]" />
+            <span class="text-sm uppercase tracking-[0.2em] text-[var(--color-fg-muted)]">
+              {project.year}
+            </span>
+          </div>
+
+          <div class="mt-7 grid grid-cols-1 gap-7 lg:grid-cols-12 lg:gap-16">
+            <h3 class="project-item delay-2 font-display text-balance text-3xl font-normal leading-[1.08] tracking-display text-[var(--color-fg)] sm:text-4xl lg:col-span-7 lg:text-[2.75rem]">
+              {project.name}
+            </h3>
+
+            <div class="project-item delay-3 lg:col-span-5">
+              <p class="text-sm uppercase tracking-[0.25em] text-[var(--color-fg-muted)]">
+                {project.category}
+              </p>
+              <p class="mt-4 text-justify text-lg leading-relaxed text-[var(--color-fg-muted)]">
+                {project.result}
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+    ))
+  }
+</section>
+
+<style>
+  /* L'immagine si svela con una tendina dall'alto verso il basso */
+  .project-media {
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .project.is-visible .project-media {
+    clip-path: inset(0 0 0 0);
+  }
+
+  /* La foto si assesta mentre la tendina scende, poi respira all'hover */
+  .project-img {
+    transform: scale(1.12);
+    transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .project.is-visible .project-img {
+    transform: scale(1);
+  }
+
+  .project.is-visible:hover .project-img {
+    transform: scale(1.04);
+  }
+
+  /* La didascalia entra sfalsata, dopo l'immagine */
+  .project-item {
+    opacity: 0;
+    transform: translateY(1rem);
+    transition:
+      opacity 0.8s ease,
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .project.is-visible .project-item {
+    opacity: 1;
+    transform: none;
+  }
+
+  .project.is-visible .delay-1 {
+    transition-delay: 0.25s;
+  }
+  .project.is-visible .delay-2 {
+    transition-delay: 0.35s;
+  }
+  .project.is-visible .delay-3 {
+    transition-delay: 0.45s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-media,
+    .project-img,
+    .project-item {
+      transition: none;
+      transform: none;
+      clip-path: none;
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const cards = document.querySelectorAll<HTMLElement>(".project");
+
+  if (cards.length) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    cards.forEach((card) => observer.observe(card));
+  }
+</script>

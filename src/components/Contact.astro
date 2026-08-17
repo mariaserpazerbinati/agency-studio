@@ -1,0 +1,138 @@
+---
+import { site, social, formspreeEndpoint } from "../data/site";
+const year = new Date().getFullYear();
+---
+
+<footer id="contatti" class="border-t border-[var(--color-border)] px-5 py-24 sm:px-8 sm:py-32">
+  <div class="mx-auto grid max-w-7xl grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
+    <div>
+      <h2 class="font-display max-w-lg text-balance text-3xl font-normal leading-[1.1] tracking-display text-[var(--color-fg)] sm:text-4xl lg:text-5xl">
+        Parliamo del tuo prossimo progetto.
+      </h2>
+
+      <div class="mt-10 flex flex-col gap-2">
+        <a
+          href={`mailto:${site.email}`}
+          class="w-fit text-xl text-[var(--color-fg-muted)] transition-colors hover:text-[var(--color-accent)]"
+        >
+          {site.email}
+        </a>
+        <p class="text-xl text-[var(--color-fg-muted)]">{site.city}, Italia</p>
+      </div>
+
+      <div class="mt-10 flex flex-wrap gap-x-6 gap-y-2">
+        {
+          social.map((s) => (
+            <a
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-base uppercase tracking-widest text-[var(--color-fg-muted)] transition-colors hover:text-[var(--color-accent)]"
+            >
+              {s.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <form
+      id="contact-form"
+      action={formspreeEndpoint}
+      method="POST"
+      class="flex flex-col gap-5"
+    >
+      <div class="flex flex-col gap-2">
+        <label for="name" class="text-base text-[var(--color-fg-muted)]">Nome</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          required
+          autocomplete="name"
+          class="border-b border-[var(--color-border)] bg-transparent py-3 text-lg text-[var(--color-fg)] outline-none transition-colors focus:border-[var(--color-accent)]"
+        />
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label for="email" class="text-base text-[var(--color-fg-muted)]">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          autocomplete="email"
+          class="border-b border-[var(--color-border)] bg-transparent py-3 text-lg text-[var(--color-fg)] outline-none transition-colors focus:border-[var(--color-accent)]"
+        />
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label for="message" class="text-base text-[var(--color-fg-muted)]">Messaggio</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="4"
+          required
+          class="resize-none border-b border-[var(--color-border)] bg-transparent py-3 text-lg text-[var(--color-fg)] outline-none transition-colors focus:border-[var(--color-accent)]"
+        ></textarea>
+      </div>
+
+      <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
+
+      <button
+        type="submit"
+        class="mt-4 w-fit rounded-full bg-[var(--color-accent)] px-8 py-3 text-base font-semibold text-[var(--color-accent-fg)] transition-opacity hover:opacity-90"
+      >
+        Invia messaggio
+      </button>
+
+      <p
+        id="form-status"
+        class="hidden text-base text-[var(--color-fg-muted)]"
+        role="status"
+        aria-live="polite"
+      >
+      </p>
+    </form>
+  </div>
+
+  <div class="mx-auto mt-24 flex max-w-7xl flex-col-reverse items-start gap-4 border-t border-[var(--color-border)] pt-8 text-sm text-[var(--color-fg-muted)] sm:flex-row sm:items-center sm:justify-between">
+    <p>© {year} {site.name}. Tutti i diritti riservati.</p>
+    <p>{site.role} · {site.city}</p>
+  </div>
+</footer>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const status = document.getElementById("form-status");
+
+  if (form && status) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+      status.classList.remove("hidden");
+      status.textContent = "Invio in corso…";
+      if (submitBtn) submitBtn.disabled = true;
+
+      try {
+        const response = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        });
+
+        if (response.ok) {
+          status.textContent = "Messaggio inviato. Ti risponderò al più presto.";
+          form.reset();
+        } else {
+          status.textContent = "Qualcosa non ha funzionato. Riprova o scrivimi via email.";
+        }
+      } catch {
+        status.textContent = "Qualcosa non ha funzionato. Riprova o scrivimi via email.";
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
+  }
+</script>

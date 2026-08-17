@@ -1,0 +1,122 @@
+---
+// Strato decorativo di fondo: velature calde in parallasse + grana di carta.
+// Puramente estetico, quindi nascosto agli screen reader e inerte ai puntatori.
+---
+
+<div class="ambient" aria-hidden="true">
+  <span class="ambient-wash ambient-wash--1"></span>
+  <span class="ambient-wash ambient-wash--2"></span>
+  <span class="ambient-wash ambient-wash--3"></span>
+  <span class="ambient-grain"></span>
+</div>
+
+<style>
+  .ambient {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .ambient-wash {
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    will-change: transform;
+  }
+
+  /* Terracotta calda, in alto a destra — sale piano mentre si scorre.
+     I centri restano dentro il viewport: è lì che il gradiente ha corpo. */
+  .ambient-wash--1 {
+    top: -10vh;
+    right: -5vw;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--color-accent) 62%, transparent) 0%,
+      color-mix(in srgb, var(--color-accent) 34%, transparent) 38%,
+      transparent 72%
+    );
+    opacity: 0.85;
+    transform: translate3d(0, calc(var(--sy, 0) * -0.12px), 0);
+  }
+
+  /* Sabbia profonda, a sinistra a metà pagina — scende in controtempo */
+  .ambient-wash--2 {
+    top: 30vh;
+    left: -15vw;
+    width: 55vw;
+    height: 55vw;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, #b08d57 62%, transparent) 0%,
+      color-mix(in srgb, #b08d57 34%, transparent) 38%,
+      transparent 72%
+    );
+    opacity: 0.8;
+    transform: translate3d(0, calc(var(--sy, 0) * 0.09px), 0);
+  }
+
+  /* Salvia fredda, in basso — bilancia i toni caldi */
+  .ambient-wash--3 {
+    bottom: -15vh;
+    right: -10vw;
+    width: 55vw;
+    height: 55vw;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, #6b7663 52%, transparent) 0%,
+      color-mix(in srgb, #6b7663 28%, transparent) 38%,
+      transparent 72%
+    );
+    opacity: 0.7;
+    transform: translate3d(0, calc(var(--sy, 0) * -0.07px), 0);
+  }
+
+  /* Grana di carta: toglie la piattezza del fondo pieno */
+  .ambient-grain {
+    position: absolute;
+    inset: -50%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    opacity: 0.07;
+    mix-blend-mode: multiply;
+    will-change: transform;
+    transform: translate3d(0, calc(var(--sy, 0) * 0.02px), 0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ambient-wash,
+    .ambient-grain {
+      transform: none;
+      will-change: auto;
+    }
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  if (!reduced.matches) {
+    let ticking = false;
+
+    const update = () => {
+      root.style.setProperty("--sy", String(window.scrollY));
+      ticking = false;
+    };
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(update);
+      },
+      { passive: true }
+    );
+
+    update();
+  }
+</script>
