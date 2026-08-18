@@ -1,7 +1,21 @@
 ---
 import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import { about, site } from "../data/site";
-import portrait from "../assets/about/portrait.jpg";
+
+// Il ritratto si risolve per contenuto della cartella, non per nome esatto:
+// un file rinominato o con altra estensione non deve far cadere la pagina.
+const trovati = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/about/*.{jpg,jpeg,png,webp,avif}",
+  { eager: true }
+);
+
+const portrait = Object.values(trovati)[0]?.default;
+if (!portrait) {
+  throw new Error(
+    "Manca il ritratto: metti un'immagine in src/assets/about/ (jpg, png o webp)."
+  );
+}
 ---
 
 <section id="chi-sono" class="border-t border-[var(--color-border)] bg-[var(--color-bg-alt)]/60 px-5 py-24 sm:px-8 sm:py-32">

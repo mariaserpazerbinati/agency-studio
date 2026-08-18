@@ -13,20 +13,19 @@ npm run preview  # anteprima della build di produzione
 npm run astro check   # type-check
 ```
 
-## Cosa sostituire prima del deploy
+## Stato dei contenuti
 
-Tutti i punti sotto sono marcati `[PLACEHOLDER]` nel codice o sono file segnaposto generati automaticamente.
+Quasi tutto è stato sostituito con materiale reale. Resta aperto solo il punto 4.
 
-1. **`src/data/site.ts`** — nome, ruolo, email, numeri di `stats` (non sono cifre reali), progetti, clienti, social, endpoint Formspree.
+1. ~~`src/data/site.ts`~~ — **fatto**: contenuti, numeri e recapiti verificati da Maria.
 2. ~~video hero~~ — **fatto**: compressi da 18,65 MB a 1,9 MB (H.264) + 2,1 MB (VP9 WebM reale), senza traccia audio.
 3. ~~poster hero~~ — **fatto**: estratta dal fotogramma a 1,5s del video.
-4. **`src/assets/projects/project-{1,2,3}.jpg`** — immagini progetti (usa `astro:assets`, basta sostituire il file mantenendo lo stesso nome o importarne uno nuovo in `Projects.astro`).
-5. **`src/assets/about/portrait.jpg`** — foto per la sezione "Chi sono". Attualmente c'è il ritratto caricato il 17/08; l'originale è in `media-source/portrait-original.png`.
-6. **`src/assets/clients/client-{1..6}.png`** — loghi clienti. I numeri 1–3 sono reali, 4–6 sono ancora wordmark segnaposto. Passano da `astro:assets`: vedi la sezione "Loghi clienti" qui sotto.
-7. **`public/og-image.jpg`** — immagine Open Graph 1200×630.
-8. **`astro.config.mjs`** — campo `site:` con il dominio definitivo (serve per sitemap, canonical, OG).
-9. **`public/robots.txt`** — riga `Sitemap:` da allineare allo stesso dominio.
-10. **Formspree** — crea un form su formspree.io e incolla l'endpoint reale in `formspreeEndpoint`.
+4. **`public/og-image.jpg`** — **da rifare**: è ancora l'immagine di condivisione segnaposto generata automaticamente (1200×630). È ciò che appare quando il link viene condiviso.
+5. ~~ritratto~~ — **fatto**. Nota: ritratto, logo, progetti e loghi clienti si risolvono leggendo il **contenuto della cartella**, non un nome fisso: puoi rinominarli o cambiarne l'estensione senza toccare il codice.
+6. ~~loghi clienti~~ — **fatto**: quattro loghi reali, rifilati e uniformati di tono.
+7. ~~progetti~~ — **fatto**: quattro progetti con immagini reali.
+8. ~~`astro.config.mjs`~~ / ~~`robots.txt`~~ — **fatto**: impostati su `https://mariaserpa.netlify.app`. Da aggiornare in entrambi i file quando arriverà un dominio proprio.
+10. ~~Formspree~~ — **sostituito da Netlify Forms**: nessun endpoint da configurare. Gli invii arrivano nel pannello Netlify (sezione *Forms*); le notifiche via email si attivano in *Project configuration → Notifications*. Invio di prova effettuato con esito positivo.
 
 ## Palette e colore accento
 
@@ -54,8 +53,9 @@ I loghi vivono in `src/assets/clients/` come PNG a sfondo trasparente e passano 
 (conversione WebP alla dimensione di resa, densità 1x/2x). Per aggiungerne uno: metti il PNG lì e
 aggiungi la riga in `clients` dentro `src/data/site.ts`, dove `logo` è il nome del file senza estensione.
 
-Le proporzioni possono variare liberamente (le attuali vanno da 2:1 a 8:1): ogni logo è centrato
-in un riquadro uniforme con `object-contain`, quindi l'ingombro ottico resta costante.
+Le proporzioni possono variare liberamente (le attuali vanno da 2:1 a 13:1): ogni logo riceve la
+stessa **area ottica**, non le stesse dimensioni. Più un marchio è allungato, più si abbassa, così
+il peso visivo resta costante. Vedi `misura()` in `Clients.astro`.
 
 Direttive per i file: ritagliati a filo del segno (nessun margine vuoto), sfondo trasparente,
 preferibilmente monocromatici, almeno 240px di altezza, sotto i 30KB.

@@ -1,5 +1,4 @@
-// Contenuti del sito. Tutti i numeri e i nomi marcati [PLACEHOLDER] vanno
-// sostituiti con dati reali prima della pubblicazione — non sono cifre verificate.
+// Contenuti del sito. Numeri, nomi e recapiti sono stati verificati da Maria.
 
 export const site = {
   name: "Maria Serpa",
@@ -7,7 +6,7 @@ export const site = {
   city: "Milano",
   email: "mariiaserpa@icloud.com",
   description:
-    "Comunicazione social e campagne promozionali organiche per far crescere personal brand e aziende — community vere, non solo numeri di vanità.",
+    "Comunicazione social e campagne promozionali organiche per far crescere personal brand e aziende — community vere, non solo numeri di vanità."
 };
 
 export const nav = [
@@ -22,14 +21,14 @@ export const nav = [
 export const hero = {
   headline: "Storie che costruiscono la marca.",
   subheadline:
-    "Milano è la nostra casa. La direttrice che lega l'estetica del living al benessere è l’universo in cui trasformiamo identità di valore in presenze social capaci di crescere organicamente.",
+    "Milano è la nostra casa. La direttrice che lega l'estetica del living al benessere è l’universo in cui trasformiamo identità di valore in presenze social capaci di crescere organicamente."
 };
 
 export const stats = [
-  { value: 60, suffix: "K+", label: "Persone raggiunte" }, // [PLACEHOLDER]
-  { value: 100, suffix: "+", label: "Campagne social gestite" }, // [PLACEHOLDER]
-  { value: 4, suffix: "", label: "Anni di esperienza" }, // [PLACEHOLDER]
-  { value: 300, suffix: "+", label: "Creatività prodotte" }, // [PLACEHOLDER]
+  { value: 60, suffix: "K+", label: "Persone raggiunte" },
+  { value: 100, suffix: "+", label: "Campagne social gestite" },
+  { value: 4, suffix: "", label: "Anni di esperienza" },
+  { value: 300, suffix: "+", label: "Creatività prodotte" },
 ];
 
 export type Categoria = "Social" | "Editoriale";
@@ -49,26 +48,26 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "progetto-uno",
-    name: "A.M. Design & Decor", // [PLACEHOLDER]
+    name: "A.M. Design & Decor",
     year: "2024-2026",
     category: ["Social"],
-    result: "Brand development, media strategy", // [PLACEHOLDER]
+    result: "Brand development, media strategy",
     image: "project-1",
   },
   {
     slug: "progetto-due",
-    name: "Denise Alves Right Touch", // [PLACEHOLDER]
+    name: "Denise Alves Right Touch",
     year: "2025-2026",
     category: ["Social"],
-    result: "Brand identity, media management", // [PLACEHOLDER]
+    result: "Brand identity, media management",
     image: "project-2",
   },
   {
     slug: "progetto-tre",
-    name: "Smery Hairstyle", // [PLACEHOLDER]
+    name: "Smery Hairstyle",
     year: "2025-2026",
     category: ["Social"],
-    result: "Branding, communication management", // [PLACEHOLDER]
+    result: "Branding, communication management",
     image: "project-3",
   },
   {
@@ -95,22 +94,23 @@ export const clients = [
 // separatamente da sotto una mascheratura: spezzale dove vuoi la pausa.
 export const statement = {
   lines: [
-    "Ogni identità ha il suo passo. Io le disegno intorno l'immagine che la porterà lontano.", // [PLACEHOLDER]
+    "Ogni identità ha il suo passo. Io le disegno intorno l'immagine che la porterà lontano.",
   ],
-  kicker: "Il metodo", // [PLACEHOLDER]
+  kicker: "Il metodo"
 };
 
+// Il ritratto non si dichiara qui: viene preso dal contenuto di
+// src/assets/about/, così rinominarlo non rompe la pagina.
 export const about = {
-  photo: "/images/about/portrait.jpg",
   positioning:
     "Strategie nate dall’identità, per un brand che vuole diventare inconfondibile",
   method: [
     "Lavoro esclusivamente sulla crescita organica, sviluppando per ogni progetto un impianto strategico proprietario pensato per i maggiori social media. Dalla creazione dei contenuti alla misurazione dei risultati, nulla viene replicato o lasciato al caso. Ogni scelta risponde soltanto a un obiettivo: elevare la percezione del brand, consolidando nel tempo il suo valore unico.",
-  ],
+  ]
 };
 
 export const social = [
-  { label: "Instagram", href: "https://www.instagram.com/mariaserpa.ze/" }, // [PLACEHOLDER]
+  { label: "Instagram", href: "https://www.instagram.com/mariaserpa.ze/" },
 
 ];
 
