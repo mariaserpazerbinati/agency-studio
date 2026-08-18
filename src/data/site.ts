@@ -19,9 +19,9 @@ export const nav = [
 ];
 
 export const hero = {
-  headline: "Storie che costruiscono la marca.",
+  headline: "Storia che diventa presenza",
   subheadline:
-    "Milano è la nostra casa. La direttrice che lega l'estetica del living al benessere è l’universo in cui trasformiamo identità di valore in presenze social capaci di crescere organicamente."
+    "Milano è la nostra casa. Living e benessere sono il nostro orizzonte. Trasformiamo identità di valore in presenze social capaci di crescere organicamente."
 };
 
 export const stats = [
@@ -43,6 +43,10 @@ export type Project = {
   category: Categoria[];
   result: string;
   image: string;
+  // Punto di ancoraggio del ritaglio (valore CSS object-position).
+  // Senza indicazione si ancora in alto, che protegge le teste dei soggetti.
+  // Serve solo dove i soggetti stanno più in basso della media.
+  focus?: string;
 };
 
 export const projects: Project[] = [
@@ -77,6 +81,9 @@ export const projects: Project[] = [
     category: ["Social", "Editoriale"],
     result: "Brand Positioning, Media Management, Content Creation",
     image: "project-4",
+    // Il gruppo sta più in basso: ancorato in alto finiva schiacciato sul bordo
+    // inferiore con troppo cielo sopra.
+    focus: "center 35%",
   },
 ];
 
@@ -105,7 +112,7 @@ export const about = {
   positioning:
     "Strategie nate dall’identità, per un brand che vuole diventare inconfondibile",
   method: [
-    "Lavoro esclusivamente sulla crescita organica, sviluppando per ogni progetto un impianto strategico proprietario pensato per i maggiori social media. Dalla creazione dei contenuti alla misurazione dei risultati, nulla viene replicato o lasciato al caso. Ogni scelta risponde soltanto a un obiettivo: elevare la percezione del brand, consolidando nel tempo il suo valore unico.",
+    "Lavoro esclusivamente sulla crescita organica, sviluppando per ogni progetto un impianto strategico proprietario pensato per i principali social media. Dalla creazione dei contenuti alla misurazione dei risultati, nulla viene replicato o lasciato al caso. Ogni scelta risponde soltanto a un obiettivo: elevare la percezione del brand, consolidando nel tempo il suo valore unico",
   ]
 };
 

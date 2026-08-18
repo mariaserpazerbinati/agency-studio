@@ -11,7 +11,7 @@ const files = import.meta.glob<{ default: ImageMetadata }>(
 
 const byName = new Map(
   Object.entries(files).map(([filePath, mod]) => [
-    filePath.split("/").pop()!.replace(/\.[^.]+$/, ""),
+    filePath.split("/").pop()!.replace(/\.[^.]+$/, "").toLowerCase(),
     mod.default,
   ])
 );
@@ -48,7 +48,7 @@ const ripetizioni = Math.max(2, Math.ceil(MIN_PER_META / clients.length));
 const meta = Array.from({ length: ripetizioni }, () => clients).flat();
 
 const track = [...meta, ...meta].map((client, i) => {
-  const src = byName.get(client.logo);
+  const src = byName.get(client.logo.toLowerCase());
   if (!src) {
     throw new Error(
       `Cliente "${client.name}": manca src/assets/clients/${client.logo}.* ` +

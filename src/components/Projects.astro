@@ -10,9 +10,11 @@ const files = import.meta.glob<{ default: ImageMetadata }>(
   { eager: true }
 );
 
+// Chiavi in minuscolo: il nome del file può arrivare con maiuscole diverse
+// (macOS le ignora, il confronto fra stringhe no).
 const byName = new Map(
   Object.entries(files).map(([filePath, mod]) => [
-    filePath.split("/").pop()!.replace(/\.[^.]+$/, ""),
+    filePath.split("/").pop()!.replace(/\.[^.]+$/, "").toLowerCase(),
     mod.default,
   ])
 );
@@ -20,7 +22,7 @@ const byName = new Map(
 // Meglio fallire durante la build che pubblicare un progetto senza immagine
 // o, peggio, con quella di un altro.
 const voci = projects.map((project) => {
-  const src = byName.get(project.image);
+  const src = byName.get(project.image.toLowerCase());
   if (!src) {
     throw new Error(
       `Progetto "${project.name}": manca src/assets/projects/${project.image}.* ` +
@@ -36,14 +38,20 @@ const voci = projects.map((project) => {
 
   {
     voci.map((project, i) => (
-      <article class="project group flex min-h-[92vh] w-full flex-col justify-center border-t border-[var(--color-border)] py-16 lg:py-20">
-        <div class="project-media w-full overflow-hidden">
+      <article class="project group flex w-full flex-col justify-center border-t border-[var(--color-border)] py-16 lg:py-20">
+        {/* Fascia di proporzione uniforme, più bassa delle foto originali.
+            Il ritaglio è ancorato in alto (object-top): in tutte e quattro le
+            immagini i soggetti hanno la testa nella metà superiore — la più
+            alta sta al 5% dal bordo — quindi tagliando dal basso restano
+            sempre interi. Ancorare al centro taglierebbe le teste. */}
+        <div class="project-media aspect-[4/3] w-full overflow-hidden sm:aspect-[16/9] lg:aspect-[22/10]">
           <Image
             src={project.src}
             alt={project.name}
             width={Math.min(project.src.width, 1920)}
             loading={i === 0 ? "eager" : "lazy"}
-            class="project-img h-[52vh] w-full object-cover lg:h-[66vh]"
+            class="project-img h-full w-full object-cover"
+            style={`object-position: ${project.focus ?? "center top"}`}
           />
         </div>
 
