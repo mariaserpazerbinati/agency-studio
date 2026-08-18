@@ -40,7 +40,7 @@
       transparent 72%
     );
     opacity: 0.85;
-    transform: translate3d(0, calc(var(--sy, 0) * -0.12px), 0);
+    --fattore: -0.12;
   }
 
   /* Sabbia profonda, a sinistra a metà pagina — scende in controtempo */
@@ -56,7 +56,7 @@
       transparent 72%
     );
     opacity: 0.8;
-    transform: translate3d(0, calc(var(--sy, 0) * 0.09px), 0);
+    --fattore: 0.09;
   }
 
   /* Salvia fredda, in basso — bilancia i toni caldi */
@@ -72,7 +72,7 @@
       transparent 72%
     );
     opacity: 0.7;
-    transform: translate3d(0, calc(var(--sy, 0) * -0.07px), 0);
+    --fattore: -0.07;
   }
 
   /* Grana di carta: toglie la piattezza del fondo pieno */
@@ -80,10 +80,9 @@
     position: absolute;
     inset: -50%;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
-    opacity: 0.07;
-    mix-blend-mode: multiply;
+    opacity: 0.045;
     will-change: transform;
-    transform: translate3d(0, calc(var(--sy, 0) * 0.02px), 0);
+    --fattore: 0.02;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -96,27 +95,39 @@
 </style>
 
 <script>
-  const root = document.documentElement;
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const strati = [...document.querySelectorAll<HTMLElement>(".ambient-wash, .ambient-grain")];
 
-  if (!reduced.matches) {
-    let ticking = false;
+  if (!reduced.matches && strati.length) {
+    // Ogni strato porta il proprio fattore. La trasformazione si scrive
+    // direttamente sull'elemento: prima passava da una variabile su :root,
+    // e cambiarla obbligava il browser a ricalcolare gli stili dell'intero
+    // documento a ogni fotogramma dello scorrimento.
+    const voci = strati.map((el) => ({
+      el,
+      fattore: parseFloat(getComputedStyle(el).getPropertyValue("--fattore")) || 0,
+    }));
 
-    const update = () => {
-      root.style.setProperty("--sy", String(window.scrollY));
-      ticking = false;
+    let inCoda = false;
+
+    const aggiorna = () => {
+      const y = window.scrollY;
+      for (const { el, fattore } of voci) {
+        el.style.transform = `translate3d(0, ${(y * fattore).toFixed(1)}px, 0)`;
+      }
+      inCoda = false;
     };
 
     window.addEventListener(
       "scroll",
       () => {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(update);
+        if (inCoda) return;
+        inCoda = true;
+        requestAnimationFrame(aggiorna);
       },
       { passive: true }
     );
 
-    update();
+    aggiorna();
   }
 </script>
