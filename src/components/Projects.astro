@@ -75,7 +75,12 @@ const voci = projects.map((project) => {
               <p class="text-sm uppercase tracking-[0.25em] text-[var(--color-fg-muted)]">
                 {project.category.join(" · ")}
               </p>
-              <p class="mt-4 text-justify text-lg leading-relaxed text-[var(--color-fg-muted)]">
+              {/* Il racconto del caso: da dove si partiva e cosa è cambiato.
+                  È la parte che trasforma un elenco di lavori in una prova. */}
+              <p class="mt-4 text-lg leading-relaxed text-[var(--color-fg)]">
+                {project.story}
+              </p>
+              <p class="mt-5 border-t border-[var(--color-border)] pt-4 text-sm uppercase tracking-[0.15em] text-[var(--color-fg-muted)]">
                 {project.result}
               </p>
             </div>

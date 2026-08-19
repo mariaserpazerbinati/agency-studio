@@ -11,7 +11,7 @@ export const site = {
 
 export const nav = [
   { href: "#home", label: "Home" },
-  { href: "#risultati", label: "Risultati" },
+  { href: "#servizi", label: "Servizi" },
   { href: "#progetti", label: "Progetti" },
   { href: "#clienti", label: "Clienti" },
   { href: "#chi-sono", label: "Chi sono" },
@@ -24,11 +24,21 @@ export const hero = {
     "Milano è la nostra casa. Living e benessere sono il nostro orizzonte. Trasformiamo identità di valore in presenze social capaci di crescere organicamente."
 };
 
-export const stats = [
-  { value: 60, suffix: "K+", label: "Persone raggiunte" },
-  { value: 100, suffix: "+", label: "Campagne social gestite" },
-  { value: 4, suffix: "", label: "Anni di esperienza" },
-  { value: 300, suffix: "+", label: "Creatività prodotte" },
+// Cosa Maria fa materialmente. Era la lacuna più grossa: le competenze
+// si intuivano dai progetti, non erano dichiarate da nessuna parte.
+// Affermazione accostata all'elenco dei servizi: occupa la metà destra
+// che l'elenco lascia vuota, e dice cosa cambia per il cliente.
+// Il testo fra asterischi va in corsivo neretto: sposta gli asterischi
+// per spostare l'enfasi, senza toccare il componente.
+export const servicesClaim =
+  "Immagina di diventare rilevante semplicemente raccontando *chi sei*.";
+
+export const services = [
+  "Sviluppo della brand image",
+  "Costruzione della presenza online",
+  "Gestione dei social media",
+  "Creazione di contenuti multimediali",
+  "Direzione della comunicazione",
 ];
 
 export type Categoria = "Social" | "Editoriale";
@@ -41,7 +51,10 @@ export type Project = {
   name: string;
   year: string;
   category: Categoria[];
+  // `result` resta l'elenco degli interventi; `story` racconta il caso:
+  // da dove si partiva e cosa è cambiato.
   result: string;
+  story: string;
   image: string;
   // Punto di ancoraggio del ritaglio (valore CSS object-position).
   // Senza indicazione si ancora in alto, che protegge le teste dei soggetti.
@@ -56,6 +69,8 @@ export const projects: Project[] = [
     year: "2024-2026",
     category: ["Social"],
     result: "Brand development, media strategy",
+    story:
+      "Un logo e nient'altro intorno: non una linea grafica, né un modo di parlare. Ho costruito il linguaggio che mancava e ora ha una voce propria, riconosciuta nel suo settore.",
     image: "project-1",
   },
   {
@@ -64,6 +79,8 @@ export const projects: Project[] = [
     year: "2025-2026",
     category: ["Social"],
     result: "Brand identity, media management",
+    story:
+      "Partiva da zero assoluto. Nessun account, nessuna vetrina. Chi la cerca oggi sono influencer e modelle da centinaia di migliaia di follower.",
     image: "project-2",
   },
   {
@@ -72,6 +89,8 @@ export const projects: Project[] = [
     year: "2025-2026",
     category: ["Social"],
     result: "Branding, communication management",
+    story:
+      "Qui non c'era da reinventare: l'identità esisteva già. Serviva chi la tenesse viva ogni giorno, con una gestione puntuale e contenuti cuciti sul suo carattere anziché su un format.",
     image: "project-3",
   },
   {
@@ -80,6 +99,8 @@ export const projects: Project[] = [
     year: "2023-2024",
     category: ["Social", "Editoriale"],
     result: "Brand Positioning, Media Management, Content Creation",
+    story:
+      "Voleva essere percepita per quanto vale davvero. Ho rifatto registro ed estetica senza mezze misure, con campagne interamente organiche: il pubblico che risponde adesso è di una fascia che prima restava fuori portata.",
     image: "project-4",
     // Il gruppo sta più in basso: ancorato in alto finiva schiacciato sul bordo
     // inferiore con troppo cielo sopra.
@@ -112,7 +133,8 @@ export const about = {
   positioning:
     "Strategie nate dall’identità, per un brand che vuole diventare inconfondibile",
   method: [
-    "Lavoro esclusivamente sulla crescita organica, sviluppando per ogni progetto un impianto strategico proprietario pensato per i principali social media. Dalla creazione dei contenuti alla misurazione dei risultati, nulla viene replicato o lasciato al caso. Ogni scelta risponde soltanto a un obiettivo: elevare la percezione del brand, consolidando nel tempo il suo valore unico",
+    "La comunicazione è la mia passione, il digital marketing e il media management la mia formazione. Vivo i social ogni giorno, ne interpreto i linguaggi, le evoluzioni e le opportunità, ma ogni progetto comincia dalla sua dimensione più autentica: il valore ancora inespresso di un brand, a partire dalla sua storia. ",
+    "Lavoro esclusivamente sulla crescita organica, costruendo strategie proprietarie di cui curo personalmente ogni fase, dalla creazione e gestione dei contenuti all’analisi dei risultati. Nulla viene replicato o lasciato al caso: ogni scelta concorre a trasformare i tratti distintivi di un brand in una presenza riconoscibile, autorevole e rilevante.",
   ]
 };
 

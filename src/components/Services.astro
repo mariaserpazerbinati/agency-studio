@@ -1,0 +1,105 @@
+---
+import { services, servicesClaim } from "../data/site";
+
+// Il testo fra asterischi va in corsivo neretto. Spezzo sulla marcatura:
+// le posizioni dispari sono le parti da enfatizzare.
+const pezziClaim = servicesClaim.split("*");
+---
+
+<section
+  id="servizi"
+  class="border-t border-[var(--color-border)] px-5 py-16 sm:px-8 sm:py-20"
+>
+  <div class="mx-auto max-w-7xl">
+    <h2 class="font-body mb-10 text-base font-light uppercase tracking-[0.2em] text-[var(--color-fg-muted)]">
+      Cosa faccio
+    </h2>
+
+    {/* Elenco stretto a sinistra, affermazione a destra: lo spazio che
+        l'elenco lasciava vuoto diventa il posto dell'unica frase
+        persuasiva della pagina, invece di essere riempito per forza. */}
+    <div class="grid grid-cols-1 gap-y-12 lg:grid-cols-12 lg:gap-x-14">
+      <ul class="lg:col-span-5">
+        {
+          services.map((service, i) => (
+            <li class="service-row border-t border-[var(--color-border)] last:border-b">
+              <div class="flex items-baseline gap-5 py-4">
+                <span class="w-6 shrink-0 text-xs font-medium tabular-nums text-[var(--color-accent)]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span class="font-display text-xl font-normal leading-snug tracking-display text-[var(--color-fg)] lg:text-2xl">
+                  {service}
+                </span>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+
+      <p
+        class="services-claim font-display text-balance text-3xl font-light leading-[1.15] tracking-display text-[var(--color-fg)] sm:text-4xl lg:col-span-7 lg:max-w-[460px] lg:self-center lg:text-[3.2rem]"
+      >
+        {
+          pezziClaim.map((pezzo, i) =>
+            i % 2 === 1 ? (
+              <em class="font-semibold italic">{pezzo}</em>
+            ) : (
+              pezzo
+            )
+          )
+        }
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .service-row,
+  .services-claim {
+    opacity: 0;
+    transform: translateY(0.75rem);
+    transition:
+      opacity 0.8s ease,
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .service-row.is-visible,
+  .services-claim.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .service-row,
+    .services-claim {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const righe = document.querySelectorAll<HTMLElement>(".service-row");
+  const claim = document.querySelector<HTMLElement>(".services-claim");
+  const elementi = [...righe, ...(claim ? [claim] : [])];
+
+  if (elementi.length) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          // il claim entra per ultimo, dopo che l'elenco si è composto
+          const indice = el === claim ? righe.length : [...righe].indexOf(el);
+          el.style.transitionDelay = `${indice * 0.07}s`;
+          el.classList.add("is-visible");
+          obs.unobserve(el);
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    elementi.forEach((el) => observer.observe(el));
+  }
+</script>

@@ -2,6 +2,8 @@
 
 /* Font self-hosted via @fontsource — importati anche in Layout.astro per il preload critico */
 @import "@fontsource-variable/bodoni-moda";
+/* corsivo vero: senza, il browser inclinerebbe il tondo a forza */
+@import "@fontsource-variable/bodoni-moda/wght-italic.css";
 @import "@fontsource-variable/jost";
 
 @theme {
