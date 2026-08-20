@@ -11,10 +11,10 @@ export const site = {
 
 export const nav = [
   { href: "#home", label: "Home" },
+  { href: "#chi-sono", label: "Chi sono" },
   { href: "#servizi", label: "Servizi" },
   { href: "#progetti", label: "Progetti" },
   { href: "#clienti", label: "Clienti" },
-  { href: "#chi-sono", label: "Chi sono" },
   { href: "#contatti", label: "Contatti" },
 ];
 
@@ -24,8 +24,16 @@ export const hero = {
     "Milano è la nostra casa. Living e benessere sono il nostro orizzonte. Trasformiamo identità di valore in presenze social capaci di crescere organicamente."
 };
 
-// Cosa Maria fa materialmente. Era la lacuna più grossa: le competenze
-// si intuivano dai progetti, non erano dichiarate da nessuna parte.
+// Sezione "specchio", fra hero e servizi: nomina il problema del visitatore
+// prima di presentare l'offerta, così ogni servizio si legge come risposta.
+export const problem = {
+  domanda: "Il tuo brand vale più di quanto riesce a comunicare?",
+  testo:
+    "Puoi avere una storia autentica, un servizio eccellente e un'identità precisa. Ma se sui social tutto questo non viene percepito, il tuo valore resta invisibile, confuso tra contenuti che non ti rappresentano e strategie che potrebbero appartenere a chiunque.",
+  ponte:
+    "Non hai bisogno di pubblicare di più. Hai bisogno di comunicare meglio ciò che ti rende diverso.",
+};
+
 // Affermazione accostata all'elenco dei servizi: occupa la metà destra
 // che l'elenco lascia vuota, e dice cosa cambia per il cliente.
 // Il testo fra asterischi va in corsivo neretto: sposta gli asterischi
@@ -33,6 +41,7 @@ export const hero = {
 export const servicesClaim =
   "Immagina di diventare rilevante semplicemente raccontando *chi sei*.";
 
+// Cosa Maria fa materialmente: si intuiva dai progetti, non era dichiarato.
 export const services = [
   "Sviluppo della brand image",
   "Costruzione della presenza online",
@@ -131,7 +140,7 @@ export const statement = {
 // src/assets/about/, così rinominarlo non rompe la pagina.
 export const about = {
   positioning:
-    "Strategie nate dall’identità, per un brand che vuole diventare inconfondibile",
+    "Credo nell’identità: la forma più sofisticata di persuasione",
   method: [
     "Sono Maria Serpa. La comunicazione è la mia passione; il digital marketing e il social media management sono la mia formazione. Vivo la rete ogni giorno, ne interpreto i linguaggi, le evoluzioni e le opportunità, ma ogni progetto comincia dalla sua dimensione più autentica: il valore ancora inespresso di un brand, a partire dalla sua storia. ",
     "Lavoro esclusivamente sulla crescita organica, costruendo strategie proprietarie di cui curo personalmente ogni fase, dalla creazione e gestione dei contenuti all’analisi dei risultati. Nulla viene replicato o lasciato al caso: ogni scelta concorre a trasformare i tratti distintivi di un brand in una presenza riconoscibile, autorevole e rilevante.",

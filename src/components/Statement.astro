@@ -35,6 +35,21 @@ import { statement } from "../data/site";
 </section>
 
 <style>
+  /* Griglia appena accennata: richiama il disegno di costruzione del
+     logotipo, fatto di assi e cerchi. Solo qui, dove il registro è già
+     diverso dal resto della pagina. Due gradienti, nessun file. */
+  .statement::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, var(--color-ink-fg) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-ink-fg) 1px, transparent 1px);
+    background-size: 72px 72px;
+    opacity: 0.045;
+  }
+
   /* Ogni riga sale da sotto la propria mascheratura: il blocco padre
      ha overflow-hidden, l'interno parte spostato in basso del 100%. */
   .statement-line-inner {

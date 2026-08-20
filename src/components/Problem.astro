@@ -1,0 +1,79 @@
+---
+import { problem } from "../data/site";
+---
+
+{/* Sta fra hero e servizi di proposito: nomina ciò che il visitatore già vive,
+    così l'elenco che segue si legge come risposta e non come catalogo. */}
+<section
+  id="problema"
+  class="border-t border-[var(--color-border)] px-5 py-20 sm:px-8 sm:py-28"
+>
+  <div class="mx-auto max-w-7xl">
+    <div class="grid grid-cols-1 gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+      <h2
+        class="problem-item font-display max-w-[15ch] text-balance text-3xl font-normal leading-[1.1] tracking-display text-[var(--color-fg)] sm:text-4xl lg:col-span-6 lg:text-[3rem]"
+      >
+        {problem.domanda}
+      </h2>
+
+      <div class="problem-item lg:col-span-6 lg:self-center">
+        <p class="max-w-[54ch] text-lg leading-relaxed text-[var(--color-fg)] sm:text-xl">
+          {problem.testo}
+        </p>
+
+        <p
+          class="font-display mt-8 max-w-[34ch] text-balance border-t border-[var(--color-border)] pt-6 text-2xl font-normal leading-snug tracking-display text-[var(--color-fg)] sm:text-[1.75rem]"
+        >
+          {problem.ponte}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .problem-item {
+    opacity: 0;
+    transform: translateY(0.75rem);
+    transition:
+      opacity 0.8s ease,
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .problem-item.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* il testo entra dopo la domanda: prima si legge, poi si spiega */
+  .problem-item.is-visible:nth-child(2) {
+    transition-delay: 0.14s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .problem-item {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const parti = document.querySelectorAll<HTMLElement>(".problem-item");
+
+  if (parti.length) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          obs.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.35 }
+    );
+
+    parti.forEach((p) => observer.observe(p));
+  }
+</script>
