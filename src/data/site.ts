@@ -70,7 +70,7 @@ export const projects: Project[] = [
     category: ["Social"],
     result: "Brand development, media strategy",
     story:
-      "Un logo e nient'altro intorno: non una linea grafica, né un modo di parlare. Ho costruito il linguaggio che mancava e ora ha una voce propria, riconosciuta nel suo settore.",
+      "Aveva un logo e nient'altro intorno: non una linea grafica, né un modo di parlare. Ho costruito il linguaggio che mancava e ora ha una voce propria, riconosciuta nel suo settore.",
     image: "project-1",
   },
   {
@@ -88,7 +88,7 @@ export const projects: Project[] = [
     name: "Smery Hairstyle",
     year: "2025-2026",
     category: ["Social"],
-    result: "Branding, communication management",
+    result: "Content creation, Social media management",
     story:
       "Qui non c'era da reinventare: l'identità esisteva già. Serviva chi la tenesse viva ogni giorno, con una gestione puntuale e contenuti cuciti sul suo carattere anziché su un format.",
     image: "project-3",
@@ -133,7 +133,7 @@ export const about = {
   positioning:
     "Strategie nate dall’identità, per un brand che vuole diventare inconfondibile",
   method: [
-    "La comunicazione è la mia passione, il digital marketing e il media management la mia formazione. Vivo i social ogni giorno, ne interpreto i linguaggi, le evoluzioni e le opportunità, ma ogni progetto comincia dalla sua dimensione più autentica: il valore ancora inespresso di un brand, a partire dalla sua storia. ",
+    "Sono Maria Serpa. La comunicazione è la mia passione; il digital marketing e il social media management sono la mia formazione. Vivo la rete ogni giorno, ne interpreto i linguaggi, le evoluzioni e le opportunità, ma ogni progetto comincia dalla sua dimensione più autentica: il valore ancora inespresso di un brand, a partire dalla sua storia. ",
     "Lavoro esclusivamente sulla crescita organica, costruendo strategie proprietarie di cui curo personalmente ogni fase, dalla creazione e gestione dei contenuti all’analisi dei risultati. Nulla viene replicato o lasciato al caso: ogni scelta concorre a trasformare i tratti distintivi di un brand in una presenza riconoscibile, autorevole e rilevante.",
   ]
 };
