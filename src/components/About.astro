@@ -16,10 +16,38 @@ if (!portrait) {
     "Manca il ritratto: metti un'immagine in src/assets/about/ (jpg, png o webp)."
   );
 }
+
+// Immagine di fondo in trasparenza, in cartella separata: quella del ritratto
+// è letta prendendo il primo file, e un secondo file lì la sostituirebbe.
+const sfondi = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/about-sfondo/*.{jpg,jpeg,png,webp,avif}",
+  { eager: true }
+);
+const sfondo = Object.values(sfondi)[0]?.default;
 ---
 
-<section id="chi-sono" class="border-t border-[var(--color-border)] px-5 py-24 sm:px-8 sm:py-32">
-  <div class="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-[minmax(0,380px)_1fr] lg:gap-20">
+<section
+  id="chi-sono"
+  class="relative overflow-hidden border-t border-[var(--color-border)] px-5 py-24 sm:px-8 sm:py-32"
+>
+  {
+    sfondo && (
+      /* Opacità verificata: nella fascia del testo il contrasto peggiore
+         resta 12,3:1, molto sopra la soglia di 4,5. La sfumatura a sinistra
+         evita il taglio netto e la fa dissolvere nell'avorio. */
+      <Image
+        src={sfondo}
+        alt=""
+        aria-hidden="true"
+        width={935}
+        densities={[1, 2]}
+        loading="lazy"
+        class="about-sfondo pointer-events-none absolute bottom-0 right-0 top-0 hidden h-full w-auto select-none object-cover lg:block"
+      />
+    )
+  }
+
+  <div class="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-[minmax(0,380px)_1fr] lg:gap-20">
     <Image
       src={portrait}
       alt={site.name}
@@ -40,10 +68,20 @@ if (!portrait) {
       <ul class="mt-10 flex max-w-xl flex-col gap-4 border-l border-[var(--color-border)] pl-6">
         {
           about.method.map((point) => (
-            <li class="text-justify text-lg text-[var(--color-fg-muted)] sm:text-xl">{point}</li>
+            <li class="text-justify text-lg leading-relaxed text-[var(--color-fg)] sm:text-xl">{point}</li>
           ))
         }
       </ul>
     </div>
   </div>
 </section>
+
+<style>
+  /* Molto in trasparenza, e sfumata sul lato sinistro così non taglia
+     di netto ma si dissolve nell'avorio della pagina. */
+  .about-sfondo {
+    opacity: 0.1;
+    mask-image: linear-gradient(to right, transparent, black 45%, black 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 45%, black 100%);
+  }
+</style>

@@ -9,25 +9,27 @@ import { problem } from "../data/site";
   class="border-t border-[var(--color-border)] bg-[var(--color-bg-alt)]/50 px-5 py-24 sm:px-8 sm:py-32"
 >
   <div class="mx-auto max-w-7xl">
-    {/* Colonna singola con rientro: la domanda a piena larghezza, il testo
-        che rientra sulla destra. Ogni altra sezione è a due colonne
-        affiancate — qui il ritmo è diagonale, e si distingue. */}
-    <h2
-      class="problem-item font-display max-w-[19ch] text-balance text-[2.4rem] font-normal leading-[1.02] tracking-display text-[var(--color-fg)] sm:text-5xl lg:text-[4.2rem]"
-    >
-      {problem.domanda}
-    </h2>
-
-    <div class="problem-item mt-12 lg:mt-16 lg:pl-[38%]">
-      <p class="max-w-[52ch] text-lg leading-relaxed text-[var(--color-fg)] sm:text-xl">
-        {problem.testo}
-      </p>
-
-      <p
-        class="font-display mt-8 max-w-[34ch] text-balance border-t border-[var(--color-border)] pt-6 text-xl font-normal leading-snug tracking-display text-[var(--color-fg)] sm:text-[1.75rem]"
+    {/* Due colonne affiancate: domanda a sinistra, testo a destra.
+        I corpi su schermo stretto restano calibrati a parte — lì la
+        domanda deve dominare il ponte, altrimenti si appiattiscono. */}
+    <div class="grid grid-cols-1 gap-y-8 lg:grid-cols-12 lg:gap-x-16">
+      <h2
+        class="problem-item font-display max-w-[14ch] text-balance text-[2.7rem] font-normal leading-[1.02] tracking-display text-[var(--color-fg)] sm:text-5xl lg:col-span-6 lg:text-[3.7rem]"
       >
-        {problem.ponte}
-      </p>
+        {problem.domanda}
+      </h2>
+
+      <div class="problem-item lg:col-span-6 lg:self-center">
+        <p class="max-w-[54ch] text-lg leading-relaxed text-[var(--color-fg)] sm:text-xl">
+          {problem.testo}
+        </p>
+
+        <p
+          class="font-display mt-8 max-w-[34ch] text-balance border-t border-[var(--color-border)] pt-6 text-xl font-normal leading-snug tracking-display text-[var(--color-fg)] sm:text-[1.75rem]"
+        >
+          {problem.ponte}
+        </p>
+      </div>
     </div>
   </div>
 </section>
