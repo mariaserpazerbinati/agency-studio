@@ -140,7 +140,7 @@ export const statement = {
 // src/assets/about/, così rinominarlo non rompe la pagina.
 export const about = {
   positioning:
-    "Credo nell’identità: la forma più sofisticata di persuasione",
+    "Credo nella verità: la forma più sofisticata di persuasione",
   method: [
     "Sono Maria Serpa. La comunicazione è la mia passione; il digital marketing e il social media management sono la mia formazione. Vivo la rete ogni giorno, ne interpreto i linguaggi, le evoluzioni e le opportunità, ma ogni progetto comincia dalla sua dimensione più autentica: il valore ancora inespresso di un brand, a partire dalla sua storia. ",
     "Lavoro esclusivamente sulla crescita organica, costruendo strategie proprietarie di cui curo personalmente ogni fase, dalla creazione e gestione dei contenuti all’analisi dei risultati. Nulla viene replicato o lasciato al caso: ogni scelta concorre a trasformare i tratti distintivi di un brand in una presenza riconoscibile, autorevole e rilevante.",
