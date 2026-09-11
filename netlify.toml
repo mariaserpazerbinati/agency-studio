@@ -14,10 +14,14 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# I video conservano lo stesso nome quando cambiano, quindi NON possono essere
+# "immutable": quella direttiva impedisce al browser di ricontrollarli, anche
+# con il ricaricamento forzato. Restano in cache un giorno, poi il browser
+# verifica se sono cambiati prima di riusarli.
 [[headers]]
   for = "/videos/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=86400, must-revalidate"
 
 [[headers]]
   for = "/fonts/*"
