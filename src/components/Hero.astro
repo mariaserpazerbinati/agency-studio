@@ -14,8 +14,8 @@ import { hero } from "../data/site";
     loop
     playsinline
     preload="none"
-    width="1280"
-    height="720"
+    width="1920"
+    height="1080"
     aria-hidden="true"
   >
     <source data-src="/videos/hero.webm" type="video/webm" />
@@ -47,21 +47,22 @@ import { hero } from "../data/site";
 </section>
 
 <style>
-  /* Velo sul video. In basso resta pieno: serve a fondere il bordo del video
-     con la pagina e a reggere la headline. Sale a trasparente in fretta, e in
-     cima lascia solo un accenno per la barra di navigazione.
-     Per alzare o abbassare il velo agire sulle percentuali di color-mix. */
+  /* Velo tarato sull'inquadratura del Duomo: nella fascia del testo c'è una
+     copertura vetrata quasi bianca (luminosità 230/255) che col testo avorio
+     dava 1:1, cioè invisibile. Serve quindi un velo deciso, ma confinato:
+     sopra il 58% il fotogramma resta del tutto scoperto.
+     Contrasto misurato nel caso peggiore: 7,38:1. */
   /* Velo scuro, concentrato in basso: il testo è avorio, quindi serve
      abbassare la luminosità del video solo dove il testo appoggia.
      Sopra il 55% dell'altezza il video resta del tutto scoperto. */
   .hero-veil {
     background: linear-gradient(
       to top,
-      rgb(0 0 0 / 0.62) 0%,
-      rgb(0 0 0 / 0.48) 18%,
-      rgb(0 0 0 / 0.28) 34%,
-      rgb(0 0 0 / 0.08) 48%,
-      transparent 60%
+      rgb(0 0 0 / 0.86) 0%,
+      rgb(0 0 0 / 0.78) 18%,
+      rgb(0 0 0 / 0.70) 34%,
+      rgb(0 0 0 / 0.24) 48%,
+      transparent 58%
     );
   }
 </style>
